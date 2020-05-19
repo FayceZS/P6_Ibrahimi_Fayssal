@@ -57,7 +57,21 @@ exports.createSauce = (req, res, next) => {
   };
         
           
-       
+exports.likeCtrl = (req,res,next) => {
+  const userToAdd = { $addToSet : {usersLiked : req.params.userId} };
+  const sauceToModify = Sauce.findOne({
+    _id: req.params.id
+  })
+  
+
+  
+    Sauce.updateOne({_id : req.params.id } , {usersLiked : userToAdd})
+    .then(() => {res.status(200).json({message : 'Sauce likée'})})
+    .catch((error) => { res.status(400).json({error: error });});
+    console.log(req.params.id);
+
+ 
+} 
       
     
       
