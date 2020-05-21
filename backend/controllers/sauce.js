@@ -1,9 +1,10 @@
 const Sauce = require('../models/sauce');
+const mongoose = require('mongoose');
 
 
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
-    delete sauceObject._id;
+    
     const sauce = new Sauce({
         ...sauceObject,
         imageUrl : `${req.protocol}://${req.get('host')}/image/${req.file.filename}`
@@ -58,32 +59,79 @@ exports.createSauce = (req, res, next) => {
         
           
 exports.likeCtrl = (req,res,next) => {
-  const userToAdd = { $addToSet : {usersLiked : req.params.userId} };
-  const sauceToModify = Sauce.findOne({
-    _id: req.params.id
-  })
+  const userConcernate = req.body.userId;
+  if(req.body.like == 1){
   
-
-  
-    Sauce.updateOne({_id : req.params.id } , {usersLiked : userToAdd})
-    .then(() => {res.status(200).json({message : 'Sauce likée'})})
-    .catch((error) => { res.status(400).json({error: error });});
-    console.log(req.params.id);
-
- 
-} 
-      
-    
+    Sauce.findOne({_id: req.params.id}) 
+    .then(sauce => {
       
         
+              sauce.usersLiked.push(userConcernate);
+              sauce.likes += 1;
+              sauce.save();
+              console.log(sauce);
+              res.status(200).json({message : 'Sauce likée'})
+    })
+            
+            
+    .catch((error) => { res.status(400).json({error: error});})
+  }
+             
+            
+            
+        
+  else if (req.body.like == 0 ){
+    Sauce.findOne({_id: req.params.id}) 
+    .then(sauce => {
+      
+        
+              
+              const index = sauce.usersLiked.indexOf(userConcernate);             //On vérifie la présence de l'utilisateur qui a aimé la sauce
+              if(sauce.usersLiked.indexOf(userConcernate)>-1)
+              {
+                sauce.usersLiked.splice(index,1);                               //S'il l'a aimé et qu'il annule son choix on le supprime
+                                                                                //Donc l'index l'a trouvé et il était présent
+                sauce.likes -= 1;    
+                                                      }      
+            else if(sauce.usersDisliked.indexOf(userConcernate)>-1){         //On vérifié si l'utilisateur est présent dans ceux qui ont dislike la sauce
+              sauce.usersDisliked.splice(index,1); 
+              sauce.dislikes -= 1;
+            }               
+                                                                 
+              sauce.save();
+              console.log(sauce);
+
+
+
+              res.status(200).json({message : 'Sauce likée'})
+    })
+            
+            
+    .catch((error) => { res.status(400).json({error: error});})
           
-        
+    }
+  else if(req.body.like == -1){
+      Sauce.findOne({_id: req.params.id}) 
+    .then(sauce => {
       
+        
+              
+              //const index = sauce.usersDisliked.indexOf(userConcernate);
+              //if(index>-1){sauce.usersLiked.splice(index,1)};
+              sauce.usersDisliked.push(userConcernate);
+              sauce.dislikes += 1;
+              sauce.save();
+              console.log(sauce);
+              res.status(200).json({message : 'Sauce dislikée'})
+    })
+            
+            
+    .catch((error) => { res.status(400).json({error: error});})
+    }
+    };
     
-  
-
-  
-  exports.deleteSauce = (req, res, next) => {
+    
+exports.deleteSauce = (req, res, next) => {
     Sauce.deleteOne({_id: req.params.id}).then(
       () => {
         res.status(200).json({
