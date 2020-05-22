@@ -15,7 +15,7 @@ const sauceSchema = new mongoose.Schema(                    //On crée le schém
       usersLiked: {type: [String],default: [],},
       usersDisliked: {type: [String],default: [],}
     
-    //   heatValue: {type : Number, required : true},
+    
     }
 )
 

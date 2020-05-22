@@ -1,12 +1,12 @@
-const multer = require('multer');
+const multer = require('multer');               //On utilise multer pour gérer nos fichiers
 
-const MIME_TYPES = {
+const MIME_TYPES = {                //On définie les extensions qui seront acceptées pour nos images
     'image/jpg' : 'jpg',
     'image/jpeg' : 'jpg',
     'image/png' : 'png'
 };
 
-const storage = multer.diskStorage({
+const storage = multer.diskStorage({                                
     destination : (req,file,callback)=>{
         callback(null,'images')
     },

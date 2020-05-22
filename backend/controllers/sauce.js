@@ -1,5 +1,5 @@
-const Sauce = require('../models/sauce');
-const mongoose = require('mongoose');
+const Sauce = require('../models/sauce');           //On récupére le schema de nos sauces
+const mongoose = require('mongoose');               //On utilise mongoose pour interagir avec notre db
 
 
 exports.createSauce = (req, res, next) => {
