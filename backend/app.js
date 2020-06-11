@@ -9,7 +9,7 @@ const helmet = require('helmet');                 //On utilise helmet pour sécu
 const rateLimit = require("express-rate-limit");        //On utilise express rate limit pour prévenir les attaques bruteforce
 
 
-mongoose.connect('mongodb+srv://Fayce:pl820827@cluster0-flqzl.mongodb.net/test?retryWrites=true&w=majority',            //On connecte notre application à notre base de données
+mongoose.connect('mongodb+srv://<pseudo>:<mdp>@cluster0-flqzl.mongodb.net/test?retryWrites=true&w=majority',            //On connecte notre application à notre base de données
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
