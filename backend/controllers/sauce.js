@@ -69,7 +69,7 @@ exports.likeCtrl = (req,res,next) => {
               sauce.usersLiked.push(userConcernate);
               sauce.likes += 1;
               sauce.save();
-              console.log(sauce);
+              
               res.status(200).json({message : 'Sauce likée'})
     })
             
@@ -99,7 +99,7 @@ exports.likeCtrl = (req,res,next) => {
             }               
                                                                  
               sauce.save();
-              console.log(sauce);
+              
 
 
 
@@ -121,7 +121,7 @@ exports.likeCtrl = (req,res,next) => {
               sauce.usersDisliked.push(userConcernate);
               sauce.dislikes += 1;
               sauce.save();
-              console.log(sauce);
+              
               res.status(200).json({message : 'Sauce dislikée'})
     })
             

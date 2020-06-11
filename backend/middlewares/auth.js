@@ -7,7 +7,7 @@ module.exports = (req,res,next) => {
         const decodedToken = jwt.verify(token, '$2b$10$WZrlJ3lvO4jURC4dUM8b5uE7ZiBMoD3rhdHzd9HUm3/gTpVEEFLzO');              //On le compare avec notre chaine de caractère de sécurité
         const userId = decodedToken.userId;
 
-        if(req.body.userId && req.body.userId !== userId){                      //!! REGLER LE PROBLEME DU BEAR null !!
+        if(req.body.userId && req.body.userId !== userId){                      
             throw 'User ID non valabble'
         }else{
             next();
