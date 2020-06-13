@@ -7,13 +7,11 @@ const userRoutes = require('./routes/user');
 const path = require('path');                     //On utilise le module path pour gérer nos fichiers en l'occurence nos images
 const helmet = require('helmet');                 //On utilise helmet pour sécuriser les données headers
 const rateLimit = require("express-rate-limit");        //On utilise express rate limit pour prévenir les attaques bruteforce
+const connectToMongoDB = require('./middlewares/dbConnect');   //On importe le middleware permettant de se connecter à notre base de données
 
 
-mongoose.connect('mongodb+srv://<pseudo>:<mdp>@cluster0-flqzl.mongodb.net/test?retryWrites=true&w=majority',            //On connecte notre application à notre base de données
-  { useNewUrlParser: true,
-    useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+connectToMongoDB.connectMongoose();
 
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes 
