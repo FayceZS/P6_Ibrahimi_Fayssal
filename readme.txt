@@ -1,6 +1,6 @@
 Afin d'accéder à la base de données :
 
--Ajouter le fichier dbConnect.js au dossier middlewares
+-Ajouter le fichier .env au dossier backend
 
 Pour lancer l'application :
 
