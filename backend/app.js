@@ -1,5 +1,6 @@
 const express = require('express');           //On utilise express pour faciliter la création de l'API
 const mongoose = require('mongoose');         //On utilise mongoose pour gérer notre db mongo
+
 const app = express();                              //On lance notre application express
 const sauceRoutes = require('./routes/sauce');      //On définie nos routes
 const bodyParser = require('body-parser');          //On va utiliser bodyParser pour parser les requêtes json et s'en servir directement comme des objets javascript
@@ -7,16 +8,29 @@ const userRoutes = require('./routes/user');
 const path = require('path');                     //On utilise le module path pour gérer nos fichiers en l'occurence nos images
 const helmet = require('helmet');                 //On utilise helmet pour sécuriser les données headers
 const rateLimit = require("express-rate-limit");        //On utilise express rate limit pour prévenir les attaques bruteforce
-const connectToMongoDB = require('./middlewares/dbConnect');   //On importe le middleware permettant de se connecter à notre base de données
 const xss = require('xss-clean');                        //On utilise le plugin xss-clean pour contrer les failles xss
 
+require('dotenv').config(); 
 
-connectToMongoDB.connectMongoose();
 
-  const limiter = rateLimit({
+console.log(process.env.DB_USER);
+
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0-flqzl.mongodb.net/test?retryWrites=true&w=majority`,            //On connecte notre application à notre base de données
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+
+
+
+
+const limiter = rateLimit({                                   //On programme un limiter pour pallier aux attaques bruteforce
     windowMs: 15 * 60 * 1000, // 15 minutes 
     max: 100 // limite chaque IP à 100 requests par windowMs
   });
+
+ 
 
 app.use(limiter);
 
