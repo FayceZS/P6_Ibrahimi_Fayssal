@@ -8,7 +8,7 @@ const path = require('path');                     //On utilise le module path po
 const helmet = require('helmet');                 //On utilise helmet pour sécuriser les données headers
 const rateLimit = require("express-rate-limit");        //On utilise express rate limit pour prévenir les attaques bruteforce
 const connectToMongoDB = require('./middlewares/dbConnect');   //On importe le middleware permettant de se connecter à notre base de données
-
+const xss = require('xss-clean');                        //On utilise le plugin xss-clean pour contrer les failles xss
 
 
 connectToMongoDB.connectMongoose();
@@ -19,6 +19,9 @@ connectToMongoDB.connectMongoose();
   });
 
 app.use(limiter);
+
+app.use(xss());
+
 
 app.use((req, res, next) => {                                                         //On définie nos CORS pour donner l'accès du backend au frontend
     res.setHeader('Access-Control-Allow-Origin', '*');
