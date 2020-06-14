@@ -1,6 +1,8 @@
 Afin d'accéder à la base de données :
 
--Ajouter le fichier .env au dossier backend
+-Modifier le fichier .env avec comme pseudo : le pseudo fourni et comme password : le mot de passe fourni
+
+-Si vous avez du mal à trouver vous pouvez consulte le fichier env_exemple qui explique comment configuer le fichier .env
 
 Pour lancer l'application :
 
